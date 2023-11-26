@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+using System.Net;
+using System.Net.Mime;
 using Ardalis.ListStartupServices;
 using Azure.Identity;
 using BlazorAdmin;
@@ -7,6 +8,7 @@ using Blazored.LocalStorage;
 using BlazorShared;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
@@ -173,13 +175,21 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docke
     app.UseShowAllServicesMiddleware();
     app.UseMigrationsEndPoint();
     app.UseWebAssemblyDebugging();
+   
 }
 else
 {
     app.Logger.LogInformation("Adding non-Development middleware...");
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+// using System.Net;
+
 
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
