@@ -89,6 +89,10 @@ builder.Services
     .AddHealthChecks()
     .AddCheck<ApiHealthCheck>("api_health_check", tags: new[] { "apiHealthCheck" })
     .AddCheck<HomePageHealthCheck>("home_page_health_check", tags: new[] { "homePageHealthCheck" });
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.KnownProxies.Add(IPAddress.Parse("3.109.2.109"));
+});
 builder.Services.Configure<ServiceConfig>(config =>
 {
     config.Services = new List<ServiceDescriptor>(builder.Services);
@@ -188,6 +192,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
+
+// using System.Net;
+
+
+
 // using System.Net;
 
 
