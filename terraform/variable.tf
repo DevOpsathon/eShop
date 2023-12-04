@@ -11,7 +11,7 @@ variable "instance_type" {
 }
 
 variable "key_pair" {
-  default = "stockholm"
+  default = "eshop-key"
 }
 
 variable "az_resource_group" {
