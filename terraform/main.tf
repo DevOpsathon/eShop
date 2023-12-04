@@ -36,7 +36,7 @@ resource "aws_instance" "eshoponweb" {
     echo 'export PATH=$PATH:/usr/share/dotnet' >> ~/.bash_profile
     # Load the updated shell configuration
     source ~/.bash_profile
-    sudo mkdir /wwwroot
+    sudo mkdir -p /wwwroot/publish
 
     sudo cat > /etc/systemd/system/myeshop.service << EOL
     [Unit]
