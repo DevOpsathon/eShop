@@ -22,6 +22,7 @@ resource "azurerm_sql_server" "eshop-mssqlserver" {
 #############################################################################
 resource "aws_instance" "eshoponweb" {
   provider               = aws.aws
+
   ami                    = var.ami
   instance_type          = var.instance_type
   key_name               = var.key_pair
@@ -53,11 +54,8 @@ resource "aws_instance" "eshoponweb" {
     [Install]
     WantedBy=multi-user.target
     EOL
-
-    sudo systemctl enable myeshop.service
-    sudo systemctl start myeshop.service
-
 EOF
+
   tags = {
     "Name" = "eshoponweb"
   }
