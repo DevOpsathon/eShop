@@ -159,15 +159,15 @@ jobs:
     #     TARGET: "/home/ec2-user/publish"
     #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
 
-    - name: Set up SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -t ed25519 13.51.86.159 >> ~/.ssh/known_hosts
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        REMOTE_SERVER_IP: 13.51.86.159
+    # - name: Set up SSH key
+    #   run: |
+    #     mkdir -p ~/.ssh
+    #     echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    #     chmod 600 ~/.ssh/id_rsa
+    #     ssh-keyscan -t ed25519 13.51.86.159 >> ~/.ssh/known_hosts
+    #   env:
+    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     REMOTE_SERVER_IP: 13.51.86.159
 
     - name: Check and adjust file permissions
       run: |
@@ -181,6 +181,11 @@ jobs:
     - name: Copy files to remote server
       run: |
         scp /home/ec2-user/publish/Web.dll user@13.51.86.159:/home/ec2-user/publish/
+
+    - name: Run remote commands
+      run: |
+        ssh user@13.51.86.159 "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+
     # - name: Debugging Info
     #   run: |
     #     echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
