@@ -116,7 +116,7 @@ jobs:
     # - name: copy file to ec2-server
     #   uses: appleboy/scp-action@v0.1.4
     #   with:
-    #     host: ${{ needs.terraform.outputs.PUBLIC_IP }}
+    #     host: '51.20.137.254'
     #     username: 'ec2-user'
     #     key: ${{ secrets.SSH_PRIVATE_KEY }}
     #     port: '22'
@@ -127,7 +127,7 @@ jobs:
       uses: Hermanverschooten/ssh-copy-command-action@v1
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SOURCE: "./eshop-artifact"
+        SOURCE: "./eshop-artifact/Web.dll"
         REMOTE_HOST: '51.20.137.254'
         REMOTE_USER: 'ec2-user'
         TARGET: "/wwwroot/publish/"
