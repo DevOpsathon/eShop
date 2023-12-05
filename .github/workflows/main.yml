@@ -59,6 +59,9 @@ jobs:
 
     permissions:
       pull-requests: write
+
+    outputs:
+      PUBLIC_IP: ${{ steps.public_id.outputs.PUBLIC_IP }}
     
     steps:
       - name: Checkout
@@ -82,8 +85,50 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
         continue-on-error: true
-    
+
       # On push to main, build or change infrastructure according to Terraform configuration files
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: terraform apply -auto-approve
+
+      - name: Getting public ip address
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        id: public_id
+        run: echo "PUBLIC_IP=$(terraform output instance_public_ip)" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: deploy artifact
+    runs-on: ubuntu-latest
+    needs: ['build', 'terraform']
+    environment: 
+      name: deploy
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4.1.1
+  
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: eshop-artifact
+          
+    # - name: copy file to ec2-server
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: ${{ needs.terraform.outputs.PUBLIC_IP }}
+    #     username: 'ec2-user'
+    #     key: ${{ secrets.ESHOP_KEY_PAIR }}
+    #     port: '22'
+    #     source: ./eshop-artifact
+    #     target: /wwwroot/publish/
+
+    - name: copy artifacts to ec2-server
+      uses: Hermanverschooten/ssh-copy-command-action@v1
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SOURCE: "./eshop-artifact"
+        REMOTE_HOST: ${{ needs.terraform.outputs.PUBLIC_IP }}
+        REMOTE_USER: 'ec2-user'
+        TARGET: "/wwwroot/publish/"
+        CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+      
+
