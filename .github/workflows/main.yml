@@ -127,7 +127,7 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SOURCE: "./eshop-artifact"
-        REMOTE_HOST: ${{ needs.terraform.outputs.PUBLIC_IP }}
+        REMOTE_HOST: "${{ needs.terraform.outputs.PUBLIC_IP }}"
         REMOTE_USER: 'ec2-user'
         TARGET: "/wwwroot/publish/"
         CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
