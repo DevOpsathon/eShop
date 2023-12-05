@@ -159,27 +159,48 @@ jobs:
     #     TARGET: "/home/ec2-user/publish"
     #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
 
-    - name: Debugging Info
+    - name: Set up SSH key
       run: |
-        echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
-        echo "SOURCE: $SOURCE"
-        echo "REMOTE_HOST: $REMOTE_HOST"
-        echo "REMOTE_USER: $REMOTE_USER"
-        echo "TARGET: $TARGET"
-        echo "CMD: $CMD"
-
-    - name: List Files Before Copy
-      run: ls -al
-    
-    - name: copy artifacts to ec2-server
-      uses: Hermanverschooten/ssh-copy-command-action@v1
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t ed25519 13.51.86.159 >> ~/.ssh/known_hosts
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SOURCE: "/home/runner/work/eShop/eShop/eshop-artifact/Web.dll"
-        REMOTE_HOST: '13.51.86.159'
-        REMOTE_USER: 'ec2-user'
-        TARGET: "/home/ec2-user/publish"
-        CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+        REMOTE_SERVER_IP: 13.51.86.159
+
+    - name: Check and adjust file permissions
+      run: |
+        chmod +r /home/ec2-user/publish/Web.dll
+        chmod +rx /home/ec2-user/publish/
+
+    - name: Create remote directory if not exists
+      run: |
+        ssh user@13.51.86.159 "mkdir -p /home/ec2-user/publish/"
+
+    - name: Copy files to remote server
+      run: |
+        scp /home/ec2-user/publish/Web.dll user@13.51.86.159:/home/ec2-user/publish/
+    # - name: Debugging Info
+    #   run: |
+    #     echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
+    #     echo "SOURCE: $SOURCE"
+    #     echo "REMOTE_HOST: $REMOTE_HOST"
+    #     echo "REMOTE_USER: $REMOTE_USER"
+    #     echo "TARGET: $TARGET"
+    #     echo "CMD: $CMD"
+
+    # - name: List Files Before Copy
+    #   run: ls -al
+    
+    # - name: copy artifacts to ec2-server
+    #   uses: Hermanverschooten/ssh-copy-command-action@v1
+    #   env:
+    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     SOURCE: "/home/runner/work/eShop/eShop/eshop-artifact/Web.dll"
+    #     REMOTE_HOST: '13.51.86.159'
+    #     REMOTE_USER: 'ec2-user'
+    #     TARGET: "/home/ec2-user/publish"
+    #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
 
 
     
