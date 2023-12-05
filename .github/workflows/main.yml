@@ -171,16 +171,16 @@ jobs:
 
     - name: Check and adjust file permissions
       run: |
-        chmod +r /home/ec2-user/publish/Web.dll
-        chmod +rx /home/ec2-user/publish/
+        chmod +r /home/runner/work/eShop/eShop/eshop-artifact
+        chmod +rx /home/runner/work/eShop/eShop/eshop-artifact
 
-    - name: Create remote directory if not exists
-      run: |
-        ssh user@13.51.86.159 "mkdir -p /home/ec2-user/publish/"
+    # - name: Create remote directory if not exists
+    #   run: |
+    #     ssh user@13.51.86.159 "mkdir -p /home/ec2-user/publish/"
 
     - name: Copy files to remote server
       run: |
-        scp /home/ec2-user/publish/Web.dll user@13.51.86.159:/home/ec2-user/publish/
+        scp /home/runner/work/eShop/eShop/eshop-artifact user@13.51.86.159:/root/
 
     - name: Run remote commands
       run: |
