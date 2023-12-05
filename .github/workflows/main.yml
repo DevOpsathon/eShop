@@ -98,6 +98,7 @@ jobs:
 
   deploy:
     name: deploy artifact
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: ['build', 'terraform']
     environment: 
@@ -124,7 +125,7 @@ jobs:
     - name: copy artifacts to ec2-server
       uses: Hermanverschooten/ssh-copy-command-action@v1
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.ESHOP_KEY_PAIR }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SOURCE: "./eshop-artifact"
         REMOTE_HOST: ${{ needs.terraform.outputs.PUBLIC_IP }}
         REMOTE_USER: 'ec2-user'
