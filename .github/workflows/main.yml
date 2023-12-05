@@ -120,7 +120,7 @@ jobs:
         username: 'ec2-user'
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: '22'
-        source: /home/runner/work/eShop/eShop/eshop-artifact/Web.dll
+        source: /home/runner/work/eShop/eShop/eshop-artifact
         target: /home/ec2-user/publish
 
     # - name: copy artifacts to ec2-server
