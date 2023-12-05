@@ -92,6 +92,7 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Getting public ip address
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         id: public_id
         run: echo "PUBLIC_IP=$(terraform output instance_public_ip)" >> $GITHUB_OUTPUT
 
