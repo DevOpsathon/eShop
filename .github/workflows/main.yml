@@ -63,8 +63,10 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    - if: matrix.language == 'csharp'
+      name: Build C#
+      run: |
+        dotnet build src/Web/Web.csproj
 
   terraform:
     name: 'Terraform'
