@@ -155,8 +155,10 @@ jobs:
     #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     #     SOURCE: "/home/runner/work/eShop/eShop/eshop-artifact/Web.dll"
     #     REMOTE_HOST: '13.51.86.159'
-    #     REMOTE_USER: 'ec2-user'
+    #     REMOTE_USER: 'root'
     #     TARGET: "/home/ec2-user/publish"
     #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+
+    
       
 
