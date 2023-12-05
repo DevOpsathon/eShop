@@ -111,6 +111,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: eshop-artifact
+        path: ./eshop-artifact
           
     # - name: copy file to ec2-server
     #   uses: appleboy/scp-action@v0.1.4
