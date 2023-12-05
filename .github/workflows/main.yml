@@ -91,10 +91,10 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: terraform apply -auto-approve
 
-      - name: Getting public ip address
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        id: public_id
-        run: echo "PUBLIC_IP=$(terraform output instance_public_ip)" >> $GITHUB_OUTPUT
+      # - name: Getting public ip address
+      #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      #   id: public_id
+      #   run: echo "PUBLIC_IP=$(terraform output instance_public_ip)" >> $GITHUB_OUTPUT
 
   deploy:
     name: deploy artifact
@@ -128,7 +128,7 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SOURCE: "./eshop-artifact/Web.dll"
-        REMOTE_HOST: '51.20.137.254'
+        REMOTE_HOST: '13.51.86.159'
         REMOTE_USER: 'ec2-user'
         TARGET: "/home/ec2-user/publish"
         CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
