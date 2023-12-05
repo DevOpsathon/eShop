@@ -112,24 +112,24 @@ jobs:
       with:
         name: eshop-artifact
           
-    - name: copy file to ec2-server
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ needs.terraform.outputs.PUBLIC_IP }}
-        username: 'ec2-user'
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: '22'
-        source: ./eshop-artifact
-        target: /wwwroot/publish/
+    # - name: copy file to ec2-server
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: ${{ needs.terraform.outputs.PUBLIC_IP }}
+    #     username: 'ec2-user'
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     port: '22'
+    #     source: ./eshop-artifact
+    #     target: /wwwroot/publish/
 
-    # - name: copy artifacts to ec2-server
-    #   uses: Hermanverschooten/ssh-copy-command-action@v1
-    #   env:
-    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     SOURCE: "./eshop-artifact"
-    #     REMOTE_HOST: "${{ needs.terraform.outputs.PUBLIC_IP }}"
-    #     REMOTE_USER: 'ec2-user'
-    #     TARGET: "/wwwroot/publish/"
-    #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+    - name: copy artifacts to ec2-server
+      uses: Hermanverschooten/ssh-copy-command-action@v1
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SOURCE: "./eshop-artifact"
+        REMOTE_HOST: '51.20.137.254'
+        REMOTE_USER: 'ec2-user'
+        TARGET: "/wwwroot/publish/"
+        CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
       
 
