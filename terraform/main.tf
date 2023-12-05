@@ -40,12 +40,12 @@ resource "aws_instance" "eshoponweb" {
     sudo mkdir /home/ec2-user/publish
 
     # installing github runner in ec2
-    mkdir actions-runner && cd actions-runner
-    curl -O -L https://github.com/actions/runner/releases/download/v2.274.2/actions-runner-linux-x64-2.274.2.tar.gz
-    tar xzf ./actions-runner-linux-x64-2.274.2.tar.gz
-    ./config.sh --url https://github.com/DevOpsathon/eShop --token A3MSHZJYXINUXMRJ764WND3FN3F7K
-    sudo ./svc.sh install
-    sudo ./svc.sh start
+    # mkdir actions-runner && cd actions-runner
+    # curl -O -L https://github.com/actions/runner/releases/download/v2.274.2/actions-runner-linux-x64-2.274.2.tar.gz
+    # tar xzf ./actions-runner-linux-x64-2.274.2.tar.gz
+    # ./config.sh --url https://github.com/DevOpsathon/eShop --token A3MSHZJYXINUXMRJ764WND3FN3F7K
+    # sudo ./svc.sh install
+    # sudo ./svc.sh start
 
     sudo cat > /etc/systemd/system/myeshop.service << EOL
     [Unit]
