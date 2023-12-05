@@ -127,7 +127,7 @@ jobs:
       uses: Hermanverschooten/ssh-copy-command-action@v1
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SOURCE: "./eshop-artifact/Web.dll"
+        SOURCE: "/home/runner/work/eShop/eShop/eshop-artifact/Web.dll"
         REMOTE_HOST: '13.51.86.159'
         REMOTE_USER: 'ec2-user'
         TARGET: "/home/ec2-user/publish"
