@@ -99,6 +99,8 @@ jobs:
   deploy:
     name: deploy artifact
     runs-on: ubuntu-latest
+    environment: 
+      name: deploy
     steps:
     - name: checkout
       uses: actions/checkout@v4.1.1
