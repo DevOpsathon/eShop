@@ -131,9 +131,6 @@ jobs:
     environment: 
       name: deploy
     steps:
-    - name: checkout
-      uses: actions/checkout@v4.1.1
-  
     - name: Download artifact from build job
       uses: actions/download-artifact@v3
       with:
@@ -147,7 +144,7 @@ jobs:
         username: 'ec2-user'
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: '22'
-        source: ./
+        source: ./eshop-artifact/Web.dll
         target: /home/ec2-user/publish
 
     # - name: copy artifacts to ec2-server
