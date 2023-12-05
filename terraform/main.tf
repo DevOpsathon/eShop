@@ -36,15 +36,15 @@ resource "aws_instance" "eshoponweb" {
     echo 'export PATH=$PATH:/usr/share/dotnet' >> ~/.bash_profile
     # Load the updated shell configuration
     source ~/.bash_profile
-    sudo mkdir -p /wwwroot/publish
+    sudo mkdir /home/ec2-user/publish
 
     sudo cat > /etc/systemd/system/myeshop.service << EOL
     [Unit]
     Description=Example of ASP.NET Core MVC App running on Amazon Linux
 
     [Service]
-    WorkingDirectory=/wwwroot/publish
-    ExecStart=/usr/bin/dotnet /wwwroot/publish/Web.dll --urls "http://0.0.0.0:80"
+    WorkingDirectory=/home/ec2-user/publish
+    ExecStart=/usr/bin/dotnet /home/ec2-user/publish/Web.dll --urls "http://0.0.0.0:80"
     Restart=always
     RestartSec=10
     KillSignal=SIGINT
