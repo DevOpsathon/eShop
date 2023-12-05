@@ -139,15 +139,15 @@ jobs:
         name: eshop-artifact
         path: ./eshop-artifact
           
-    - name: copy file to ec2-server
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: '13.51.86.159'
-        username: 'ec2-user'
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: '22'
-        source: ./eshop-artifact/Web.dll
-        target: /home/ec2-user/publish
+    # - name: copy file to ec2-server
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: '13.51.86.159'
+    #     username: 'ec2-user'
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     port: '22'
+    #     source: ./eshop-artifact/Web.dll
+    #     target: /home/ec2-user/publish
 
     # - name: copy artifacts to ec2-server
     #   uses: Hermanverschooten/ssh-copy-command-action@v1
@@ -158,6 +158,29 @@ jobs:
     #     REMOTE_USER: 'root'
     #     TARGET: "/home/ec2-user/publish"
     #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+
+    - name: Debugging Info
+      run: |
+        echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
+        echo "SOURCE: $SOURCE"
+        echo "REMOTE_HOST: $REMOTE_HOST"
+        echo "REMOTE_USER: $REMOTE_USER"
+        echo "TARGET: $TARGET"
+        echo "CMD: $CMD"
+
+    - name: List Files Before Copy
+      run: ls -al
+    
+    - name: copy artifacts to ec2-server
+      uses: Hermanverschooten/ssh-copy-command-action@v1
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SOURCE: "/home/runner/work/eShop/eShop/eshop-artifact/Web.dll"
+        REMOTE_HOST: '13.51.86.159'
+        REMOTE_USER: 'ec2-user'
+        TARGET: "/home/ec2-user/publish"
+        CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+
 
     
       
