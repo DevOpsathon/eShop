@@ -130,7 +130,7 @@ jobs:
         SOURCE: "./eshop-artifact/Web.dll"
         REMOTE_HOST: '51.20.137.254'
         REMOTE_USER: 'ec2-user'
-        TARGET: "/wwwroot/publish/"
+        TARGET: "/home/ec2-user/publish"
         CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
       
 
