@@ -3,9 +3,8 @@ name: eShopOnWeb
 on:
   workflow_dispatch:
   push:
-    branches: ['master']
-  pull_request:
-    branches: ['master']
+    branches: ['feature']
+
 
 jobs:
   build:
