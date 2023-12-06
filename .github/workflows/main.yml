@@ -63,10 +63,13 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - if: matrix.language == 'csharp'
-      name: Build C#
-      run: |
-        dotnet build src/Web/Web.csproj
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    # - if: matrix.language == 'csharp'
+    #   name: Build C#
+    #   run: |
+    #     dotnet build src/Web/Web.csproj
         
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
