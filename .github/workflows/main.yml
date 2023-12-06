@@ -67,6 +67,11 @@ jobs:
       name: Build C#
       run: |
         dotnet build src/Web/Web.csproj
+        
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
 
   terraform:
     name: 'Terraform'
