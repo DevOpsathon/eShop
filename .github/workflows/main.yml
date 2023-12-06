@@ -217,8 +217,8 @@ jobs:
     - name: Deploy in EC2
       env:
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
-        HOSTNAME : 'ec2-user'
-        USER_NAME : '51.20.79.222'
+        USER_NAME : 'ec2-user'
+        HOSTNAME : '51.20.79.222'
             
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
