@@ -174,22 +174,22 @@ jobs:
     #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     #     REMOTE_SERVER_IP: 13.51.86.159
 
-    - name: Check and adjust file permissions
-      run: |
-        chmod +r /home/runner/work/eShop/eShop/eshop-artifact
-        chmod +rx /home/runner/work/eShop/eShop/eshop-artifact
+    # - name: Check and adjust file permissions
+    #   run: |
+    #     chmod +r /home/runner/work/eShop/eShop/eshop-artifact
+    #     chmod +rx /home/runner/work/eShop/eShop/eshop-artifact
 
     # - name: Create remote directory if not exists
     #   run: |
     #     ssh user@13.51.86.159 "mkdir -p /home/ec2-user/publish/"
 
-    - name: Copy files to remote server
-      run: |
-        scp /home/runner/work/eShop/eShop/eshop-artifact user@13.51.86.159:/root/
+    # - name: Copy files to remote server
+    #   run: |
+    #     scp /home/runner/work/eShop/eShop/eshop-artifact user@13.51.86.159:/root/
 
-    - name: Run remote commands
-      run: |
-        ssh user@13.51.86.159 "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
+    # - name: Run remote commands
+    #   run: |
+    #     ssh user@13.51.86.159 "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
 
     # - name: Debugging Info
     #   run: |
@@ -214,6 +214,16 @@ jobs:
     #     CMD: "sudo systemctl enable myeshop.service && sudo systemctl start myeshop.service"
 
 
-    
+    - name: Deploy in EC2
+      env:
+        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
+        HOSTNAME : 'ec2-user'
+        USER_NAME : '51.20.79.222'
+            
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+
+        git clone git@github.com:https://github.com/DevOpsathon/eShop/suites/18796645399/artifacts/1095673308
       
 
